@@ -1,0 +1,337 @@
+@font-face { font-family: "Special Elite"; src: url("fonts/special-elite-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Courier Prime"; src: url("fonts/courier-prime-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Courier Prime"; src: url("fonts/courier-prime-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Archivo Black"; src: url("fonts/archivo-black-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+:root {
+  --paper: #fdfcf6;
+  --desk: #d8d1bd;
+  --ink: #1b1a17;
+  --ink-soft: #57524a;
+  --rule: #c9c4b4;
+  --red: #c2281d;
+  --marker: #ffe45c;
+  --typed: "Special Elite", "Courier Prime", "Courier New", monospace;
+  --body: "Courier Prime", "Courier New", monospace;
+  --heavy: "Archivo Black", "Arial Black", sans-serif;
+  --feed: 30px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255, 255, 255, 0.35), transparent 60%),
+    var(--desk);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--body);
+  overflow-x: hidden;
+}
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* The printout: paper with fibre grain, tractor-feed strips, and a torn bottom edge. */
+.paper {
+  position: relative;
+  overflow-x: clip;
+  max-width: 58rem;
+  margin: 2.5rem auto 0;
+  padding: 2.75rem calc(var(--feed) + clamp(1.25rem, 5vw, 3.5rem)) 3.5rem;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    var(--paper);
+  box-shadow: 0 1px 0 var(--rule), 0 24px 60px rgba(50, 40, 15, 0.22);
+  -webkit-mask: linear-gradient(#000 0 0) top / 100% calc(100% - 11px) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 22px 11px repeat-x;
+          mask: linear-gradient(#000 0 0) top / 100% calc(100% - 11px) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 22px 11px repeat-x;
+}
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 11px;
+  width: var(--feed);
+  background: radial-gradient(circle at 50% 50%, var(--desk) 0 5px, transparent 5.5px) 0 6px / var(--feed) 24px repeat-y;
+}
+.paper::before { left: 0; border-right: 1px dashed var(--rule); }
+.paper::after { right: 0; border-left: 1px dashed var(--rule); }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible,
+.btn:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+
+mark {
+  color: inherit;
+  background: linear-gradient(transparent 55%, var(--marker) 55%) no-repeat 0 0 / 100% 100%;
+}
+
+h1, h2, h3, p, dl, dd, ol, ul { margin: 0; }
+
+/* Header */
+.wire { font-size: 0.8125rem; color: var(--ink-soft); }
+
+.headline {
+  margin: 1.1rem 0 2rem;
+  max-width: 17em;
+  font: 400 min(clamp(1.6rem, 5.4vw, 3.5rem), 9.5vw)/1.08 var(--typed);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+}
+
+.dossier {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  grid-template-areas: "actions stamp" "leaders stamp";
+  column-gap: 2rem;
+  align-items: start;
+}
+.dossier .actions { grid-area: actions; margin: 0 0 1.25rem; }
+.dossier .leaders { grid-area: leaders; }
+.stamp-zone { grid-area: stamp; position: relative; min-height: 12rem; }
+
+.leaders > div {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  align-items: baseline;
+  padding: 0.15rem 0;
+}
+.leaders dt {
+  display: flex;
+  align-items: baseline;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.leaders dt::after {
+  content: "";
+  flex: 1;
+  margin: 0 0.6rem 0 0.4rem;
+  border-bottom: 2px dotted currentColor;
+  transform: translateY(-0.25em);
+}
+.leaders dd { overflow-wrap: break-word; }
+.leaders .role dd { font-weight: 700; }
+
+.status a { color: var(--ink); font-weight: 700; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.05em;
+  margin-left: 0.25em;
+  vertical-align: -0.15em;
+  background: var(--red);
+  animation: blink 1.06s steps(1) 1.8s 4;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* The stamp: an ink impression, and the stage the 3D stamp lands on. */
+.impression {
+  position: absolute;
+  top: 3.2rem;
+  left: 50%;
+  translate: -50% 0;
+  rotate: -9deg;
+  padding: 0.5rem 0.9rem 0.45rem;
+  border: 4px solid var(--red);
+  border-radius: 6px;
+  color: var(--red);
+  font: 400 min(1.65rem, 7vw)/1 var(--heavy);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 1.75'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 1.75'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+.stamp-stage { position: absolute; inset: -9rem -2rem -1rem; pointer-events: none; }
+.stamp-stage canvas { display: block; width: 100%; height: 100%; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.15rem;
+  border: 2px solid var(--ink);
+  font: 700 0.95rem/1.1 var(--body);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease;
+}
+.btn-ink { background: var(--ink); color: var(--paper); }
+.btn-line { background: transparent; color: var(--ink); }
+.btn::before { content: "[ "; content: "[ " / ""; }
+.btn::after { content: " ]"; content: " ]" / ""; }
+.btn:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-line:hover { background: var(--marker); }
+  .btn-ink:hover { background: var(--red); border-color: var(--red); }
+  .status a:hover { background: var(--marker); }
+}
+
+.brief { max-width: 64ch; margin-top: 2rem; }
+
+/* Sections: a dashed tear line, then the typed section title. */
+.part { margin-top: 3rem; padding-top: 1.25rem; border-top: 2px dashed var(--ink); }
+.part > h2 {
+  margin-bottom: 1.25rem;
+  font: 400 clamp(1.5rem, 3.6vw, 2rem)/1.15 var(--typed);
+  text-transform: uppercase;
+}
+.num { margin-right: 0.5rem; color: var(--red); }
+
+.log { list-style: none; padding: 0; }
+.log > li {
+  display: grid;
+  grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.log > li:last-child { border-bottom: 0; }
+.when { font-weight: 700; overflow-wrap: anywhere; }
+.log h3 { margin-bottom: 0.4rem; font: 400 1.0625rem/1.4 var(--body); overflow-wrap: anywhere; }
+.org { display: block; font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.now { display: inline-block; margin-left: 0.3rem; padding: 0 0.4rem; background: var(--ink); color: var(--paper); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; vertical-align: 0.1em; }
+.log > li:first-child { border-left: 4px solid var(--ink); padding-left: 0.9rem; margin-left: -1.15rem; }
+.notes { list-style: none; padding: 0; max-width: 68ch; }
+.notes li { position: relative; padding-left: 1.4em; margin-top: 0.3rem; }
+.notes li::before { content: ">"; content: ">" / ""; position: absolute; left: 0; color: var(--ink-soft); font-weight: 700; }
+
+/* Exhibit A is the one loud object below the fold. */
+.exhibit-a {
+  position: relative;
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.9rem 1.5rem 1.5rem;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.exhibit-a .tab {
+  position: absolute;
+  top: -0.85rem;
+  left: 1rem;
+  padding: 0.15rem 0.65rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.exhibit-a h3 { margin-bottom: 0.85rem; }
+.exhibit-a .big { display: block; font: 400 clamp(1.5rem, 4.4vw, 2.4rem)/1 var(--heavy); text-transform: uppercase; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.exhibit-a .sub { display: block; margin-top: 0.45rem; font: 700 1.25rem/1.3 var(--body); letter-spacing: 0.02em; }
+.exhibit-a p:not(.tab) { max-width: 64ch; font-size: 1.125rem; }
+.stamp {
+  display: inline-block;
+  margin-top: 1.1rem;
+  padding: 0.4rem 0.8rem;
+  border: 3px solid var(--red);
+  color: var(--red);
+  font: 400 0.95rem/1.2 var(--heavy);
+  text-transform: uppercase;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  rotate: -2deg;
+  transition: background-color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) { .stamp:hover { background: var(--marker); } }
+
+.more { list-style: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+.more h3 { font: 700 1.0625rem/1.4 var(--body); overflow-wrap: anywhere; }
+.more .tag { margin-right: 0.4rem; color: var(--ink); text-transform: uppercase; }
+.more .private { font-weight: 400; color: var(--ink-soft); }
+.more p { max-width: 66ch; padding-left: 1.4em; overflow-wrap: anywhere; }
+
+.reply .actions { margin-bottom: 1.5rem; }
+.ask { margin-bottom: 1.25rem; max-width: 46ch; font: 400 1.25rem/1.4 var(--body); }
+
+.end { margin-top: 3rem; padding-top: 1rem; border-top: 2px dashed var(--ink); text-align: center; color: var(--ink-soft); font-size: 0.875rem; }
+.end p { padding-bottom: 0.5rem; }
+
+/* ---------- Motion (only with .motion, set before first paint when the visitor allows motion) ---------- */
+
+/* The sheet feeds in from the platen once. */
+.motion .paper { animation: feed 700ms var(--ease-out); }
+@keyframes feed { from { transform: translateY(-28px); } }
+
+/* Typed text: motion.js wraps each character; until it runs, the headline waits (a fallback reveals it at 2.5 s). */
+.motion .headline:not(.typed) { visibility: hidden; animation: reveal 0s 2.5s forwards; }
+@keyframes reveal { to { visibility: visible; } }
+.ch { opacity: 0; animation: ch-in 1ms steps(1, jump-start) var(--d) forwards; }
+@keyframes ch-in { to { opacity: 1; } }
+.ch-hold { opacity: 0; }
+
+/* Highlighter sweeps on after a line is typed. */
+.motion [data-type] mark { background-size: 0% 100%; transition: background-size 420ms var(--ease-out); }
+.motion [data-type].swept mark { background-size: 100% 100%; }
+
+/* The ink impression lands when the 3D stamp makes contact (or right after the headline, without WebGL). */
+.motion .impression { opacity: 0; scale: 1.18; }
+.motion .dossier:not(.stamped) .impression { animation: imp-fallback 0s 7s forwards; }
+@keyframes imp-fallback { to { opacity: 0.9; scale: 1; } }
+.motion .stamped .impression { opacity: 0.9; scale: 1; transition: opacity 90ms linear, scale 260ms var(--ease-out); }
+
+/* Exhibit A's stamp presses when the box scrolls into view. */
+.motion.mjs .exhibit-a .stamp { opacity: 0; scale: 1.35; rotate: -9deg; }
+.motion .exhibit-a.pressed .stamp { opacity: 1; scale: 1; rotate: -2deg; transition: opacity 80ms linear, scale 240ms var(--ease-out), rotate 240ms var(--ease-out); }
+.motion .exhibit-a.pressed { animation: thud 260ms 120ms var(--ease-out); }
+@keyframes thud { 30% { translate: 0 2px; } }
+
+/* ---------- Layout breakpoints ---------- */
+
+@media (max-width: 900px) {
+  .dossier { grid-template-columns: minmax(0, 1fr); grid-template-areas: "actions" "stamp" "leaders"; }
+  .stamp-zone { min-height: 7.5rem; }
+  .impression { top: 1rem; }
+  .stamp-stage { inset: -9rem 0 -1rem; }
+}
+
+@media (max-width: 560px) {
+  .leaders > div { grid-template-columns: 5rem minmax(0, 1fr); padding: 0.2rem 0; }
+  .leaders dd { font-size: 0.95rem; }
+  .leaders dt::after { display: none; }
+  .leaders dt { font-size: 0.8125rem; color: var(--ink-soft); }
+}
+
+@media (max-width: 560px) {
+  :root { --feed: 16px; }
+  .paper { margin: 0; padding: 2rem calc(var(--feed) + 0.85rem) 3rem; }
+  .paper::before, .paper::after { background-size: var(--feed) 18px; background-image: radial-gradient(circle at 50% 50%, var(--desk) 0 3.5px, transparent 4px); }
+  .actions { flex-direction: column; }
+  .btn { width: 100%; padding-block: 0.95rem; }
+  .log > li { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  .exhibit-a { padding: 1.75rem 1rem 1.25rem; box-shadow: 5px 5px 0 var(--ink); }
+  .more p { padding-left: 0; }
+  .log > li:first-child { margin-left: 0; padding-left: 0.7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+  .btn { transition: background-color 160ms ease, border-color 160ms ease; }
+  .btn:active { transform: none; }
+}
+
+@media print {
+  body { background: #fff; font-size: 10.5pt; }
+  .paper { max-width: none; margin: 0; padding: 0; box-shadow: none; background: #fff; -webkit-mask: none; mask: none; animation: none; }
+  .paper::before, .paper::after, .cursor, .actions, .stamp-zone { display: none; }
+  .dossier { display: block; }
+  mark { background: none; font-weight: 700; }
+  .headline, .motion .headline:not(.typed) { font-size: 22pt; visibility: visible; animation: none; }
+  .motion .paper { animation: none; }
+  .motion.mjs .exhibit-a .stamp { opacity: 1; scale: 1; rotate: -2deg; }
+  .ch, .ch-hold { opacity: 1; animation: none; }
+  .exhibit-a { box-shadow: none; }
+  .exhibit-a .stamp { opacity: 1; scale: 1; }
+  h2, h3 { break-after: avoid; }
+  .log > li, .more > li, .exhibit-a { break-inside: avoid; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; overflow-wrap: anywhere; }
+  .contact a::after { content: none; }
+}
